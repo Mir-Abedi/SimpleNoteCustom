@@ -12,6 +12,7 @@ from rest_framework.generics import (
     RetrieveUpdateDestroyAPIView,
     ListCreateAPIView, ListAPIView,
     CreateAPIView)
+from datetime import datetime, timedelta
 
 
 class ListCreateNoteAPIView(ListCreateAPIView):
@@ -72,3 +73,19 @@ class FilterNotesAPIView(ListAPIView):
 
     def get_queryset(self):
         return self.queryset.filter(creator=self.request.user)
+
+class GetUpdateNoteAPIView(RetrieveUpdateDestroyAPIView):
+    serializer_class = NoteSerializer
+    queryset = Note.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        time = request.query_params.get('time', "1900-01-01T00:00:00Z")
+        time = datetime.fromisoformat(time.replace("Z", "+00:00"))
+        print(time + timedelta(days=1))  # Adjust for timezone if necessary
+        notes = self.queryset.filter(
+            creator=request.user,
+            updated_at__gt=time
+        )
+        serializer = self.get_serializer(notes, many=True)
+        return Response(serializer.data)
