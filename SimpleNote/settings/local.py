@@ -2,7 +2,7 @@ from .base import *
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["37.32.14.9"]
 
 # Local SQLite database
 DATABASES = {
