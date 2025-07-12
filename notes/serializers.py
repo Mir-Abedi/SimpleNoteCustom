@@ -13,7 +13,7 @@ class NoteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Note
         fields = ('id', 'title', 'description', 'created_at',
-                  'updated_at', 'creator_name', 'creator_username')
+                  'updated_at', 'creator_name', 'creator_username', 'user_id', 'is_pinned')
         read_only_fields = ['created_at', 'updated_at',
                             'id', 'creator_name', 'creator_username']
         list_serializer_class = serializers.ListSerializer

@@ -8,6 +8,8 @@ class Note(models.Model):
     created_at = models.DateTimeField(auto_now_add=True, db_index=True)
     updated_at = models.DateTimeField(auto_now=True)
     creator = models.ForeignKey(User, related_name='notes', on_delete=models.CASCADE)
+    is_pinned = models.BooleanField(default=False)
+    user_id = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
