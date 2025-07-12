@@ -89,3 +89,6 @@ class GetUpdateNoteAPIView(RetrieveUpdateDestroyAPIView):
         )
         serializer = self.get_serializer(notes, many=True)
         return Response(serializer.data)
+    
+    def get_queryset(self):
+        return self.queryset.filter(creator=self.request.user)
