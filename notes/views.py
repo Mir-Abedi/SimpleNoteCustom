@@ -61,6 +61,10 @@ class RetrieveUpdateDestroyNoteAPIView(RetrieveUpdateDestroyAPIView):
     serializer_class = NoteSerializer
     queryset = Note.objects.all()
     permission_classes = [IsAuthenticated, IsOwnerOrReadOnly]
+    lookup_field = "user_id"
+
+    def get_queryset(self):
+        return self.queryset.filter(creator=self.request.user)
 
 
 class FilterNotesAPIView(ListAPIView):
